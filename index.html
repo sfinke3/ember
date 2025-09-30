@@ -121,7 +121,7 @@
     Ember isn’t just another canned coffee — it’s a breakthrough in convenience, technology, and taste.
     </p>
 
-    <div class="container grid-3">
+    <div class="container grid-2">
         <div class="card">
         <h3>🔥 Self-Heating</h3>
         <p class="muted">
@@ -335,7 +335,11 @@
       iframe.style.display='none'; iframe.width=0; iframe.height=0; iframe.src=url; document.body.appendChild(iframe);
       setTimeout(()=>{ if(iframe.parentNode) iframe.remove(); }, 3000);
 
-      toast('Email saved!'); closeModal(); submitting=false; $('submitEmailBtn').disabled=false;
+        // Show confirmation modal instead of toast
+        closeModal();
+        openConfirm();
+        submitting=false; 
+        $('submitEmailBtn').disabled=false;
 
       // Next step of funnel (optional): redirect to /thanks or show payment link
       // window.location.href = '/thanks';
@@ -350,15 +354,6 @@
     const closeConfirmFn = ()=>{ confirmModal.style.display='none'; };
     closeConfirm.addEventListener('click', closeConfirmFn);
     confirmModal.addEventListener('click', (e)=>{ if(e.target===confirmModal) closeConfirmFn(); });
-
-    // In your email submit success handler, replace the line:
-    toast('Email saved!'); closeModal(); submitting=false; $('submitEmailBtn').disabled=false;
-
-    // with:
-    closeModal();
-    openConfirm();
-    submitting=false; $('submitEmailBtn').disabled=false;
-
   </script>
 </body>
 </html>
