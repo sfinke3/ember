@@ -1,912 +1,270 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ember - Hot Coffee. Anytime. Anywhere.</title>
-    
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ38EB0J4S"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-YJ38EB0J4S');
-    </script>
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            color: #ffffff;
-            overflow-x: hidden;
-        }
-
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 107, 53, 0.15) 0%, transparent 70%);
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.1); }
-        }
-
-        .logo {
-            font-size: 5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
-            animation: fadeInDown 1s ease-out;
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .tagline {
-            font-size: 2rem;
-            font-weight: 300;
-            margin-bottom: 3rem;
-            letter-spacing: 0.05em;
-            animation: fadeIn 1s ease-out 0.3s both;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .can-container {
-            position: relative;
-            margin: 3rem 0;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .can {
-            width: 200px;
-            height: 320px;
-            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ff6b35 100%);
-            border-radius: 15px;
-            position: relative;
-            box-shadow: 0 30px 60px rgba(255, 107, 53, 0.4);
-            overflow: hidden;
-        }
-
-        .can::before {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 0;
-            right: 0;
-            height: 40px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%);
-            border-radius: 15px 15px 0 0;
-        }
-
-        .can-top {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 180px;
-            height: 30px;
-            background: linear-gradient(180deg, #e0e0e0 0%, #a0a0a0 100%);
-            border-radius: 90px / 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .can-logo {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 3rem;
-            font-weight: 700;
-            color: rgba(255,255,255,0.9);
-            letter-spacing: 0.05em;
-        }
-
-        .heat-indicator {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-        }
-
-        .heat-wave {
-            width: 4px;
-            height: 30px;
-            background: rgba(255,255,255,0.6);
-            border-radius: 2px;
-            animation: wave 1s ease-in-out infinite;
-        }
-
-        .heat-wave:nth-child(2) { animation-delay: 0.1s; }
-        .heat-wave:nth-child(3) { animation-delay: 0.2s; }
-        .heat-wave:nth-child(4) { animation-delay: 0.3s; }
-        .heat-wave:nth-child(5) { animation-delay: 0.4s; }
-
-        @keyframes wave {
-            0%, 100% { height: 30px; opacity: 0.6; }
-            50% { height: 45px; opacity: 1; }
-        }
-
-        .cta-button {
-            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-            color: white;
-            border: none;
-            padding: 1.2rem 3rem;
-            font-size: 1.2rem;
-            font-weight: 600;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
-            animation: fadeIn 1s ease-out 0.6s both;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.6);
-        }
-
-        .video-section {
-            padding: 6rem 2rem;
-            background: rgba(0,0,0,0.3);
-        }
-
-        .video-container {
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .video-container h2 {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #ff6b35;
-        }
-
-        .video-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-        }
-
-        iframe {
-            border-radius: 20px;
-        }
-
-        canvas {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .features {
-            padding: 6rem 2rem;
-            background: rgba(255,255,255,0.03);
-        }
-
-        .features-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-        }
-
-        .feature {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(255,255,255,0.05);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .feature:hover {
-            transform: translateY(-10px);
-            background: rgba(255,255,255,0.08);
-            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.2);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .feature h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #ff6b35;
-        }
-
-        .feature p {
-            color: #cccccc;
-            line-height: 1.6;
-        }
-
-        .science {
-            padding: 6rem 2rem;
-            max-width: 1100px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .science h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: #ff6b35;
-        }
-
-        .science-intro {
-            color: #cccccc;
-            font-size: 1.2rem;
-            line-height: 1.8;
-            margin-bottom: 4rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .reaction-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            margin: 3rem 0;
-            flex-wrap: wrap;
-        }
-
-        .particle-box {
-            background: rgba(255,255,255,0.05);
-            border: 2px solid rgba(255, 107, 53, 0.3);
-            border-radius: 20px;
-            padding: 2rem;
-            min-width: 200px;
-            position: relative;
-        }
-
-        .particle-visual {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 1rem;
-            position: relative;
-        }
-
-        .iron-particles {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-        }
-
-        .iron-particle {
-            width: 20px;
-            height: 20px;
-            background: linear-gradient(135deg, #c0c0c0 0%, #808080 100%);
-            border-radius: 50%;
-            animation: vibrate 0.5s ease-in-out infinite;
-        }
-
-        @keyframes vibrate {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(-1px, -1px); }
-            75% { transform: translate(1px, 1px); }
-        }
-
-        .oxygen-molecules {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            padding: 20px;
-        }
-
-        .oxygen-molecule {
-            display: flex;
-            gap: 3px;
-        }
-
-        .oxygen-atom {
-            width: 25px;
-            height: 25px;
-            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
-            border-radius: 50%;
-            animation: rotate 2s linear infinite;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .heat-visual {
-            position: relative;
-        }
-
-        .flame {
-            width: 100px;
-            height: 120px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .flame-layer {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            animation: flicker 1s ease-in-out infinite;
-        }
-
-        .flame-outer {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(to top, #ff6b35, #f7931e);
-            animation-delay: 0s;
-        }
-
-        .flame-middle {
-            width: 70px;
-            height: 80px;
-            background: linear-gradient(to top, #f7931e, #ffd700);
-            animation-delay: 0.1s;
-        }
-
-        .flame-inner {
-            width: 40px;
-            height: 60px;
-            background: linear-gradient(to top, #ffd700, #ffeb3b);
-            animation-delay: 0.2s;
-        }
-
-        @keyframes flicker {
-            0%, 100% { transform: translateX(-50%) scaleY(1); }
-            50% { transform: translateX(-50%) scaleY(1.1); }
-        }
-
-        .particle-label {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #ff6b35;
-            margin-bottom: 0.5rem;
-        }
-
-        .particle-description {
-            color: #999;
-            font-size: 0.9rem;
-        }
-
-        .operator {
-            font-size: 3rem;
-            color: #ff6b35;
-            font-weight: 700;
-        }
-
-        .science-tagline {
-            margin-top: 3rem;
-            font-size: 1.3rem;
-            color: #ff6b35;
-            font-weight: 600;
-            padding: 1.5rem;
-            background: rgba(255, 107, 53, 0.1);
-            border-radius: 15px;
-            border: 2px solid rgba(255, 107, 53, 0.3);
-        }
-
-        .waitlist {
-            padding: 6rem 2rem;
-            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-            text-align: center;
-        }
-
-        .waitlist h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .waitlist p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .waitlist-form {
-            max-width: 100%;
-            margin: 0 auto 3rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .buy-button {
-            padding: 1.5rem 4rem;
-            background: #1a1a1a;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.5rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .buy-button:hover {
-            background: #2d2d2d;
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
-        }
-
-        #emailForm {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .email-input {
-            padding: 1rem 1.5rem;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50px;
-            background: rgba(255, 255, 255, 0.9);
-            font-size: 1rem;
-            width: 300px;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .email-input:focus {
-            border-color: #1a1a1a;
-            background: white;
-        }
-
-        .submit-button {
-            padding: 1rem 2.5rem;
-            background: #1a1a1a;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .submit-button:hover {
-            background: #2d2d2d;
-            transform: scale(1.05);
-        }
-
-        .thank-you-message {
-            font-size: 1.5rem;
-            font-weight: 600;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-        }
-
-        .analytics-display {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            margin-top: 3rem;
-            flex-wrap: wrap;
-        }
-
-        .stat-box {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 2rem 3rem;
-            border-radius: 20px;
-            text-align: center;
-            min-width: 200px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            opacity: 0.9;
-        }
-
-        @media (max-width: 768px) {
-            .logo { font-size: 3rem; }
-            .tagline { font-size: 1.3rem; }
-            .can { width: 150px; height: 240px; }
-            .can-logo { font-size: 2rem; }
-            .reaction-container { gap: 1rem; }
-            .operator { font-size: 2rem; }
-            .waitlist-form iframe {
-                width: 100% !important;
-                max-width: 100%;
-            }
-            .email-input {
-                width: 250px;
-            }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ember — Hot Coffee. Anywhere. Anytime.</title>
+  <meta name="description" content="Ember delivers café-quality heat in a grab-and-go can — no barista required. Join the waitlist." />
+
+  <!-- GA4 (use your real ID) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ38EB0J4S"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-YJ38EB0J4S');
+  </script>
+
+  <style>
+    :root{
+      --bg:#0b0b0b; --fg:#fff; --muted:#c8c8c8;
+      --accent:#ff5a1f; --accent-2:#ff7b3d; --card:#141414;
+      --radius:18px; --shadow:0 20px 60px rgba(0,0,0,.45);
+      --font: system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.5;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    img,video{max-width:100%;display:block}
+    .container{width:min(1100px,92vw);margin-inline:auto}
+
+    /* HERO */
+    .hero{position:relative;min-height:90vh;display:grid;place-items:center;overflow:hidden}
+    .hero video,.hero .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.55) saturate(1.1)}
+    .hero-overlay{position:relative;z-index:2;text-align:center;padding:80px 0 32px}
+    .badge{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:999px;font-size:13px;color:var(--muted);backdrop-filter:blur(8px)}
+    h1{font-size:clamp(32px,6vw,64px);margin:14px 0 6px;letter-spacing:-.02em}
+    .sub{font-size:clamp(16px,2.6vw,22px);color:#e7e7e7;max-width:780px;margin:0 auto 26px}
+    .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .btn{appearance:none;border:0;cursor:pointer;font-weight:700;border-radius:14px;padding:14px 18px;transition:.2s transform,.2s box-shadow,.2s background}
+    .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#111;box-shadow:0 8px 28px rgba(255,90,31,.35)}
+    .btn-primary:hover{transform:translateY(-1px)}
+    .btn-secondary{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.12)}
+    .metrics{margin-top:12px;font-size:13px;color:var(--muted)}
+    .down{margin-top:28px;font-size:13px;color:var(--muted)}
+
+    /* Sections */
+    section{padding:60px 0}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    @media (max-width:880px){.grid-3{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+    .card h3{margin:6px 0 6px;font-size:22px}
+    .muted{color:var(--muted)}
+
+    .usecase{display:grid;grid-template-columns:1.1fr .9fr;gap:26px;align-items:center;margin-top:28px}
+    .usecase:nth-child(odd){grid-template-columns:.9fr 1.1fr}
+    @media (max-width:880px){.usecase{grid-template-columns:1fr}}
+
+    /* FAQ */
+    details{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px 16px}
+    details+details{margin-top:10px}
+    summary{cursor:pointer;font-weight:600}
+
+    footer{padding:40px 0 70px;color:var(--muted);text-align:center}
+
+    /* Modal */
+    .modal-backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.55);z-index:9999;padding:18px}
+    .modal{width:min(520px,96vw);background:#fff;color:#111;border-radius:16px;padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+    .modal h3{margin:4px 0 6px}
+    .modal input[type="email"]{width:100%;padding:14px;border:1px solid #ddd;border-radius:12px;font-size:15px}
+    .modal .actions{display:flex;gap:10px;margin-top:12px}
+    .modal .btn{border-radius:12px}
+    .notice{margin-top:8px;font-size:12px;color:#555}
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;background:#111;color:#fff;padding:10px 14px;border-radius:999px;font-size:14px;opacity:0;transition:.25s}
+    .toast.show{opacity:1}
+  </style>
 </head>
 <body>
-    <section class="hero">
-        <div class="logo">ember</div>
-        <h1 class="tagline">HOT COFFEE. ANYTIME. ANYWHERE.</h1>
-        
-        <div class="can-container">
-            <div class="can">
-                <div class="can-top"></div>
-                <div class="can-logo">ember</div>
-                <div class="heat-indicator">
-                    <div class="heat-wave"></div>
-                    <div class="heat-wave"></div>
-                    <div class="heat-wave"></div>
-                    <div class="heat-wave"></div>
-                    <div class="heat-wave"></div>
-                </div>
-            </div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <!-- Replace these two files in /assets (see list below) -->
+    <video autoplay muted playsinline loop poster="assets/hero-poster.jpg">
+      <source src="assets/ember-hero-loop.mp4" type="video/mp4">
+    </video>
+
+    <div class="hero-overlay container">
+      <span class="badge">🔥 New • Portable Hot Coffee</span>
+      <h1>Hot Coffee. Anywhere. Anytime.</h1>
+      <p class="sub">Ember delivers café-quality heat in a grab-and-go can — no barista required.</p>
+      <div class="cta">
+        <button id="buyNowBtn" class="btn btn-primary">Reserve My Ember</button>
+        <a href="#learn-more" class="btn btn-secondary">Learn more</a>
+      </div>
+      <div class="metrics" id="metricsLine">Tracked: 0 views • 0 clicks • 0 signups</div>
+      <div class="down">Scroll ↓ to see how it works</div>
+    </div>
+  </header>
+
+  <!-- BENEFITS -->
+  <section id="learn-more">
+    <div class="container grid-3">
+      <div class="card"><h3>Instant Heat</h3><p class="muted">Activate and enjoy steaming coffee in minutes — no machine, no outlet.</p></div>
+      <div class="card"><h3>Anywhere</h3><p class="muted">From commute to chairlift, take the heat with you. Pack-safe and travel-ready.</p></div>
+      <div class="card"><h3>Sustainable</h3><p class="muted">Designed with recyclability in mind and minimized components.</p></div>
+    </div>
+  </section>
+
+  <!-- USE-CASES -->
+  <section>
+    <div class="container">
+      <div class="usecase">
+        <img src="assets/usecase-commute.jpg" alt="Ember on the morning commute">
+        <div>
+          <h2>Morning Commute</h2>
+          <p class="muted">Skip the line. Activate Ember as you leave — sip hot coffee as you arrive.</p>
         </div>
+      </div>
 
-        <button class="cta-button" onclick="document.getElementById('waitlist').scrollIntoView({behavior: 'smooth'})">
-            Get Early Access
-        </button>
-    </section>
-
-    <section class="video-section">
-        <div class="video-container">
-            <h2>See Ember In Action</h2>
-            <div class="video-wrapper">
-                <canvas id="videoCanvas"></canvas>
-            </div>
+      <div class="usecase">
+        <div>
+          <h2>On the Mountain</h2>
+          <p class="muted">Warm up between runs. Ember stays pack-safe and mess-free.</p>
         </div>
-    </section>
+        <img src="assets/usecase-ski.jpg" alt="Ember on a ski slope">
+      </div>
 
-    <section class="features">
-        <div class="features-grid">
-            <div class="feature">
-                <div class="feature-icon">🔥</div>
-                <h3>Self-Heating</h3>
-                <p>Hot coffee in seconds. No microwave, no kettle, no wait. Just twist and enjoy.</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">🚀</div>
-                <h3>Ultimate Convenience</h3>
-                <p>Grab from the shelf and go. Perfect for commutes, travel, or whenever you need that hot coffee fix.</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">♻️</div>
-                <h3>Zero Cleanup</h3>
-                <p>No dirty mugs, no washing. All the satisfaction of hot coffee without the hassle.</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">⚡</div>
-                <h3>Always Ready</h3>
-                <p>Skip the café lines. Skip the waiting. Your hot coffee is ready when you are.</p>
-            </div>
+      <div class="usecase">
+        <img src="assets/usecase-gym.jpg" alt="Ember after the gym">
+        <div>
+          <h2>After the Gym</h2>
+          <p class="muted">Comfort without compromise. Try our café-mocha concept post-workout.</p>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <section class="science">
-        <h2>The Science Behind The Heat</h2>
-        <p class="science-intro">
-            Ember uses revolutionary self-heating technology powered by a simple chemical reaction. 
-            When you activate the can, iron particles react with oxygen to generate instant heat.
-        </p>
-        
-        <div class="reaction-container">
-            <div class="particle-box">
-                <div class="particle-label">IRON PARTICLES</div>
-                <div class="particle-visual">
-                    <div class="iron-particles">
-                        <div class="iron-particle"></div>
-                        <div class="iron-particle"></div>
-                        <div class="iron-particle"></div>
-                        <div class="iron-particle"></div>
-                        <div class="iron-particle"></div>
-                        <div class="iron-particle"></div>
-                        <div class="iron-particle"></div>
-                        <div class="iron-particle"></div>
-                        <div class="iron-particle"></div>
-                        <div class="iron-particle"></div>
-                        <div class="iron-particle"></div>
-                        <div class="iron-particle"></div>
-                    </div>
-                </div>
-                <div class="particle-description">Micro iron powder</div>
-            </div>
+  <!-- SOCIAL PROOF / CREDIBILITY (lightweight for test) -->
+  <section>
+    <div class="container grid-3">
+      <div class="card"><h3>“Finally, hot coffee to go.”</h3><p class="muted">— Early tester</p></div>
+      <div class="card"><h3>Be an early member</h3><p class="muted">Join the first 500 on the list to unlock launch perks.</p></div>
+      <div class="card"><h3>As seen in</h3><p class="muted">Add press logos later (optional).</p></div>
+    </div>
+  </section>
 
-            <div class="operator">+</div>
+  <!-- FAQ -->
+  <section>
+    <div class="container">
+      <h2>FAQ</h2>
+      <details open><summary>Is it safe?</summary><p class="muted">Yes. Ember uses sealed components and is designed for everyday carry.</p></details>
+      <details><summary>How hot does it get?</summary><p class="muted">Target serving temp ~60–65 °C / 140–149 °F.</p></details>
+      <details><summary>When can I get it?</summary><p class="muted">We’re validating demand now. Join the list to be first.</p></details>
+    </div>
+  </section>
 
-            <div class="particle-box">
-                <div class="particle-label">OXYGEN</div>
-                <div class="particle-visual">
-                    <div class="oxygen-molecules">
-                        <div class="oxygen-molecule">
-                            <div class="oxygen-atom"></div>
-                            <div class="oxygen-atom"></div>
-                        </div>
-                        <div class="oxygen-molecule">
-                            <div class="oxygen-atom"></div>
-                            <div class="oxygen-atom"></div>
-                        </div>
-                        <div class="oxygen-molecule">
-                            <div class="oxygen-atom"></div>
-                            <div class="oxygen-atom"></div>
-                        </div>
-                        <div class="oxygen-molecule">
-                            <div class="oxygen-atom"></div>
-                            <div class="oxygen-atom"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="particle-description">From the air</div>
-            </div>
+  <!-- FINAL CTA -->
+  <section>
+    <div class="container" style="text-align:center">
+      <h2>Be first when Ember launches</h2>
+      <p class="muted">Reserve your spot — no payment today.</p>
+      <button id="buyNowBtn2" class="btn btn-primary" style="margin-top:8px;">Reserve My Ember</button>
+    </div>
+  </section>
 
-            <div class="operator">=</div>
+  <footer>
+    <div class="container">© <span id="year"></span> Ember • <a href="/privacy">Privacy</a> • <a href="/terms">Terms</a></div>
+  </footer>
 
-            <div class="particle-box">
-                <div class="particle-label">HEAT</div>
-                <div class="particle-visual heat-visual">
-                    <div class="flame">
-                        <div class="flame-layer flame-outer"></div>
-                        <div class="flame-layer flame-middle"></div>
-                        <div class="flame-layer flame-inner"></div>
-                    </div>
-                </div>
-                <div class="particle-description">Perfect temperature</div>
-            </div>
-        </div>
+  <!-- EMAIL CAPTURE MODAL (Google Form) -->
+  <div id="emailModalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="emailModalTitle">
+    <div class="modal">
+      <h3 id="emailModalTitle">Almost there — enter your email</h3>
+      <p>We’ll reserve your spot and email you first at launch.</p>
+      <input id="emailInput" type="email" inputmode="email" placeholder="you@example.com" autocomplete="email" />
+      <div class="actions">
+        <button id="submitEmailBtn" class="btn btn-primary">Continue</button>
+        <button id="cancelEmailBtn" class="btn btn-secondary">Cancel</button>
+      </div>
+      <div class="notice">By continuing, you agree to our <a href="/terms" target="_blank" rel="noopener">Terms</a> & <a href="/privacy" target="_blank" rel="noopener">Privacy</a>.</div>
+    </div>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-        <div class="science-tagline">
-            Safe, Reliable & Perfectly Heated Every Time
-        </div>
-    </section>
+  <script>
+    // ---------- IDs you can change ----------
+    const GA_ID = 'G-YJ38EB0J4S';
+    const FORM_ID = '1FAIpQLSdn0CiwR3UPUnrW1DzZl5-HGN4P4FjztaC77Y8Syqv01O1-Ug';
+    const ENTRY_ID_EMAIL = 'entry.1671573404'; // email field
+    // ---------------------------------------
 
-    <section class="waitlist" id="waitlist">
-        <h2>Join The Waitlist</h2>
-        <p>Be the first to experience hot coffee, reimagined.</p>
-        <div class="waitlist-form">
-            <div style="font-size: 2rem; font-weight: 700; margin-bottom: 1.5rem; letter-spacing: 0.05em;">$4 / can</div>
-            <div id="buyButton">
-                <button class="buy-button" onclick="showEmailForm()">BUY NOW!</button>
-            </div>
-            <div id="emailForm" style="display: none;">
-                <input type="email" id="emailInput" placeholder="Enter your email address" class="email-input">
-                <button class="submit-button" onclick="submitEmail()">Submit</button>
-            </div>
-            <div id="thankYou" style="display: none;">
-                <p class="thank-you-message">Thank you! We'll be in touch soon.</p>
-            </div>
-        </div>
-        <div class="analytics-display">
-            <div class="stat-box">
-                <div class="stat-number" id="buyClicks">0</div>
-                <div class="stat-label">Buy Now Clicks</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-number" id="emailSubmits">0</div>
-                <div class="stat-label">Email Submissions</div>
-            </div>
-        </div>
-    </section>
+    // Metrics in localStorage
+    const LS = { views:'ember_views_v1', clicks:'ember_clicks_v1', signups:'ember_signups_v1', emails:'ember_emails_v1' };
+    const $ = (id)=>document.getElementById(id);
+    const emailRe=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
-    <script>
-        // Marketing video animation
-        const canvas = document.getElementById('videoCanvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = 1280;
-        canvas.height = 720;
-        
-        const scenes = [
-            { 
-                text: 'MORNINGS',
-                subtext: 'Start your day right',
-                emoji: '☀️',
-                bg: '#1a1a1a'
-            },
-            { 
-                text: 'COMMUTES',
-                subtext: 'Hot coffee on the go',
-                emoji: '🚗',
-                bg: '#1a1a1a'
-            },
-            { 
-                text: 'WORK',
-                subtext: 'Power through your day',
-                emoji: '💼',
-                bg: '#1a1a1a'
-            },
-            { 
-                text: 'ADVENTURE',
-                subtext: 'Take it anywhere',
-                emoji: '⛰️',
-                bg: '#1a1a1a'
-            },
-            { 
-                text: 'EMBER',
-                subtext: 'Hot Coffee. Anytime. Anywhere.',
-                emoji: '🔥',
-                bg: 'gradient'
-            }
-        ];
-        
-        let currentScene = 0;
-        let frame = 0;
-        const framesPerScene = 90;
-        
-        function drawVideoFrame() {
-            const scene = scenes[currentScene];
-            const progress = (frame % framesPerScene) / framesPerScene;
-            
-            // Background
-            if (scene.bg === 'gradient') {
-                const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-                gradient.addColorStop(0, '#ff6b35');
-                gradient.addColorStop(1, '#f7931e');
-                ctx.fillStyle = gradient;
-            } else {
-                ctx.fillStyle = scene.bg;
-            }
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Fade effect
-            let opacity = 1;
-            if (progress < 0.15) {
-                opacity = progress / 0.15;
-            } else if (progress > 0.85) {
-                opacity = (1 - progress) / 0.15;
-            }
-            
-            ctx.globalAlpha = opacity;
-            
-            // Draw emoji
-            ctx.font = 'bold 180px Arial';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(scene.emoji, canvas.width / 2, canvas.height / 2 - 100);
-            
-            // Draw main text
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 90px Arial';
-            ctx.fillText(scene.text, canvas.width / 2, canvas.height / 2 + 60);
-            
-            // Draw subtext
-            ctx.font = '45px Arial';
-            ctx.fillText(scene.subtext, canvas.width / 2, canvas.height / 2 + 130);
-            
-            ctx.globalAlpha = 1;
-            
-            frame++;
-            if (frame >= framesPerScene) {
-                frame = 0;
-                currentScene = (currentScene + 1) % scenes.length;
-            }
-        }
-        
-        // Start video animation
-        setInterval(drawVideoFrame, 1000 / 30);
+    function getNum(k){ return parseInt(localStorage.getItem(k)||'0',10); }
+    function setNum(k,v){ localStorage.setItem(k,String(v)); }
+    function getEmails(){ try{return JSON.parse(localStorage.getItem(LS.emails)||'[]')}catch{return[]} }
+    function setEmails(list){ localStorage.setItem(LS.emails, JSON.stringify(list)) }
+    function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1700); }
 
-        // Analytics tracking
-        let buyClicks = 0;
-        let emailSubmits = 0;
+    function refreshMetrics(){
+      $('metricsLine').textContent = `Tracked: ${getNum(LS.views)} views • ${getNum(LS.clicks)} clicks • ${getNum(LS.signups)} signups`;
+    }
 
-        function showEmailForm() {
-            buyClicks++;
-            document.getElementById('buyClicks').textContent = buyClicks;
-            document.getElementById('buyButton').style.display = 'none';
-            document.getElementById('emailForm').style.display = 'flex';
-            
-            // Track in Google Analytics
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'buy_now_click', {
-                    'event_category': 'engagement',
-                    'event_label': 'Buy Now Button'
-                });
-            }
-        }
+    // Count a view (once per page load)
+    setNum(LS.views, getNum(LS.views)+1);
+    refreshMetrics();
 
-        function submitEmail() {
-            const email = document.getElementById('emailInput').value;
-            if (email && email.includes('@')) {
-                emailSubmits++;
-                document.getElementById('emailSubmits').textContent = emailSubmits;
-                document.getElementById('emailForm').style.display = 'none';
-                document.getElementById('thankYou').style.display = 'block';
-                
-                // Track in Google Analytics
-                if (typeof gtag !== 'undefined') {
-                    gtag('event', 'email_submit', {
-                        'event_category': 'conversion',
-                        'event_label': 'Email Submission',
-                        'value': email
-                    });
-                }
-                
-                // Submit to Google Form
-                const submissionUrl = `https://docs.google.com/forms/d/e/1FAIpQLSdn0CiwR3UPUnrW1DzZl5-HGN4P4FjztaC77Y8Syqv01O1-Ug/formResponse?entry.1671573404=${encodeURIComponent(email)}&submit=Submit`;
-                
-                // Create a hidden iframe to submit the form
-                const iframe = document.createElement('iframe');
-                iframe.style.display = 'none';
-                iframe.style.width = '0';
-                iframe.style.height = '0';
-                iframe.style.border = 'none';
-                iframe.name = 'hidden_iframe_' + Date.now();
-                document.body.appendChild(iframe);
-                
-                // Load the submission URL in the iframe
-                iframe.src = submissionUrl;
-                
-                console.log('Email submitted:', email);
-                console.log('Submission URL:', submissionUrl);
-                
-                // Clean up iframe after a delay
-                setTimeout(() => {
-                    if (iframe.parentNode) {
-                        document.body.removeChild(iframe);
-                    }
-                }, 3000);
-            } else {
-                alert('Please enter a valid email address');
-            }
-        }
-    </script>
+    // Year
+    $('year').textContent = new Date().getFullYear();
+
+    // Modal helpers
+    const modal = $('emailModalBackdrop');
+    const openModal = ()=>{ modal.style.display='flex'; setTimeout(()=>$('emailInput').focus(),50); };
+    const closeModal = ()=>{ modal.style.display='none'; };
+
+    // Wire buttons
+    ['buyNowBtn','buyNowBtn2'].forEach(id=>{
+      const el=$(id); if(!el) return;
+      el.addEventListener('click', ()=>{
+        // click metric
+        setNum(LS.clicks, getNum(LS.clicks)+1);
+        if (window.gtag) gtag('event','buy_click',{event_category:'engagement',event_label:id});
+        refreshMetrics();
+        openModal();
+      });
+    });
+
+    $('cancelEmailBtn').addEventListener('click', closeModal);
+    $('emailModalBackdrop').addEventListener('click', (e)=>{ if(e.target===modal) closeModal(); });
+
+    let submitting=false;
+    $('submitEmailBtn').addEventListener('click', async ()=>{
+      if(submitting) return;
+      const email = $('emailInput').value.trim().toLowerCase();
+      if(!emailRe.test(email)){ toast('Enter a valid email.'); $('emailInput').focus(); return; }
+
+      // dedupe
+      const list = getEmails();
+      if(list.some(r=>r.email===email)){ toast('You’re already on the list!'); closeModal(); return; }
+
+      submitting=true; $('submitEmailBtn').disabled=true;
+
+      // Save locally
+      const record={email, ts: new Date().toISOString()};
+      setEmails([...list, record]);
+      setNum(LS.signups, getNum(LS.signups)+1);
+      refreshMetrics();
+
+      // Fire GA event
+      if (window.gtag) gtag('event','email_submit',{event_category:'conversion',value:1});
+
+      // Submit to Google Form via hidden iframe
+      const url=`https://docs.google.com/forms/d/e/${FORM_ID}/formResponse?${ENTRY_ID_EMAIL}=${encodeURIComponent(email)}&submit=Submit`;
+      const iframe=document.createElement('iframe');
+      iframe.style.display='none'; iframe.width=0; iframe.height=0; iframe.src=url; document.body.appendChild(iframe);
+      setTimeout(()=>{ if(iframe.parentNode) iframe.remove(); }, 3000);
+
+      toast('Email saved!'); closeModal(); submitting=false; $('submitEmailBtn').disabled=false;
+
+      // Next step of funnel (optional): redirect to /thanks or show payment link
+      // window.location.href = '/thanks';
+    });
+
+    $('emailInput').addEventListener('keydown', (e)=>{ if(e.key==='Enter') $('submitEmailBtn').click(); });
+  </script>
 </body>
 </html>
