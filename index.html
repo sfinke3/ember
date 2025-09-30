@@ -248,14 +248,14 @@
   </div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <!-- CONFIRMATION MODAL -->
-    <div id="confirmModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
-    <div class="modal">
+   <div id="confirmModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <div class="modal">
         <h3 id="confirmTitle">You're in! 🎉</h3>
         <p>Thanks for reserving your Ember. We’ll email you with updates before launch.</p>
         <div class="actions">
-        <button id="closeConfirmBtn" class="btn btn-primary">Close</button>
+            <button id="closeConfirmBtn" class="btn btn-primary">Close</button>
         </div>
-    </div>
+      </div>
     </div>
 
 
@@ -277,9 +277,13 @@
     function setEmails(list){ localStorage.setItem(LS.emails, JSON.stringify(list)) }
     function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1700); }
 
+
     function refreshMetrics(){
-      $('metricsLine').textContent = `Tracked: ${getNum(LS.views)} views • ${getNum(LS.clicks)} clicks • ${getNum(LS.signups)} signups`;
+      const el = $('metricsLine');
+        if (!el) return; // safe no-op if element is gone
+      el.textContent = `Tracked: ${getNum(LS.views)} views • ${getNum(LS.clicks)} clicks • ${getNum(LS.signups)} signups`;
     }
+
 
     // Count a view (once per page load)
     setNum(LS.views, getNum(LS.views)+1);
