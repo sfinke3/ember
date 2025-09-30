@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ember - Hot Coffee. Anytime. Anywhere.</title>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ38EB0J4S"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-YJ38EB0J4S');
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 107, 53, 0.15) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        .logo {
+            font-size: 5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tagline {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+            letter-spacing: 0.05em;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .can-container {
+            position: relative;
+            margin: 3rem 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .can {
+            width: 200px;
+            height: 320px;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ff6b35 100%);
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 30px 60px rgba(255, 107, 53, 0.4);
+            overflow: hidden;
+        }
+
+        .can::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%);
+            border-radius: 15px 15px 0 0;
+        }
+
+        .can-top {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 30px;
+            background: linear-gradient(180deg, #e0e0e0 0%, #a0a0a0 100%);
+            border-radius: 90px / 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .can-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.9);
+            letter-spacing: 0.05em;
+        }
+
+        .heat-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .heat-wave {
+            width: 4px;
+            height: 30px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 2px;
+            animation: wave 1s ease-in-out infinite;
+        }
+
+        .heat-wave:nth-child(2) { animation-delay: 0.1s; }
+        .heat-wave:nth-child(3) { animation-delay: 0.2s; }
+        .heat-wave:nth-child(4) { animation-delay: 0.3s; }
+        .heat-wave:nth-child(5) { animation-delay: 0.4s; }
+
+        @keyframes wave {
+            0%, 100% { height: 30px; opacity: 0.6; }
+            50% { height: 45px; opacity: 1; }
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: white;
+            border: none;
+            padding: 1.2rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+            animation: fadeIn 1s ease-out 0.6s both;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.6);
+        }
+
+        .video-section {
+            padding: 6rem 2rem;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .video-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .video-container h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #ff6b35;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        iframe {
+            border-radius: 20px;
+        }
+
+        canvas {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .features {
+            padding: 6rem 2rem;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .feature:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ff6b35;
+        }
+
+        .feature p {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        .science {
+            padding: 6rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .science h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #ff6b35;
+        }
+
+        .science-intro {
+            color: #cccccc;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .reaction-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+
+        .particle-box {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .particle-visual {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1rem;
+            position: relative;
+        }
+
+        .iron-particles {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .iron-particle {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #c0c0c0 0%, #808080 100%);
+            border-radius: 50%;
+            animation: vibrate 0.5s ease-in-out infinite;
+        }
+
+        @keyframes vibrate {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(-1px, -1px); }
+            75% { transform: translate(1px, 1px); }
+        }
+
+        .oxygen-molecules {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .oxygen-molecule {
+            display: flex;
+            gap: 3px;
+        }
+
+        .oxygen-atom {
+            width: 25px;
+            height: 25px;
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            border-radius: 50%;
+            animation: rotate 2s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .heat-visual {
+            position: relative;
+        }
+
+        .flame {
+            width: 100px;
+            height: 120px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .flame-layer {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: flicker 1s ease-in-out infinite;
+        }
+
+        .flame-outer {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(to top, #ff6b35, #f7931e);
+            animation-delay: 0s;
+        }
+
+        .flame-middle {
+            width: 70px;
+            height: 80px;
+            background: linear-gradient(to top, #f7931e, #ffd700);
+            animation-delay: 0.1s;
+        }
+
+        .flame-inner {
+            width: 40px;
+            height: 60px;
+            background: linear-gradient(to top, #ffd700, #ffeb3b);
+            animation-delay: 0.2s;
+        }
+
+        @keyframes flicker {
+            0%, 100% { transform: translateX(-50%) scaleY(1); }
+            50% { transform: translateX(-50%) scaleY(1.1); }
+        }
+
+        .particle-label {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ff6b35;
+            margin-bottom: 0.5rem;
+        }
+
+        .particle-description {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .operator {
+            font-size: 3rem;
+            color: #ff6b35;
+            font-weight: 700;
+        }
+
+        .science-tagline {
+            margin-top: 3rem;
+            font-size: 1.3rem;
+            color: #ff6b35;
+            font-weight: 600;
+            padding: 1.5rem;
+            background: rgba(255, 107, 53, 0.1);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .waitlist {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            text-align: center;
+        }
+
+        .waitlist h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .waitlist p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .waitlist-form {
+            max-width: 100%;
+            margin: 0 auto 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .buy-button {
+            padding: 1.5rem 4rem;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .buy-button:hover {
+            background: #2d2d2d;
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        #emailForm {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .email-input {
+            padding: 1rem 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            width: 300px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .email-input:focus {
+            border-color: #1a1a1a;
+            background: white;
+        }
+
+        .submit-button {
+            padding: 1rem 2.5rem;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .submit-button:hover {
+            background: #2d2d2d;
+            transform: scale(1.05);
+        }
+
+        .thank-you-message {
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+        }
+
+        .analytics-display {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2rem 3rem;
+            border-radius: 20px;
+            text-align: center;
+            min-width: 200px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .logo { font-size: 3rem; }
+            .tagline { font-size: 1.3rem; }
+            .can { width: 150px; height: 240px; }
+            .can-logo { font-size: 2rem; }
+            .reaction-container { gap: 1rem; }
+            .operator { font-size: 2rem; }
+            .waitlist-form iframe {
+                width: 100% !important;
+                max-width: 100%;
+            }
+            .email-input {
+                width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="logo">ember</div>
+        <h1 class="tagline">HOT COFFEE. ANYTIME. ANYWHERE.</h1>
+        
+        <div class="can-container">
+            <div class="can">
+                <div class="can-top"></div>
+                <div class="can-logo">ember</div>
+                <div class="heat-indicator">
+                    <div class="heat-wave"></div>
+                    <div class="heat-wave"></div>
+                    <div class="heat-wave"></div>
+                    <div class="heat-wave"></div>
+                    <div class="heat-wave"></div>
+                </div>
+            </div>
+        </div>
+
+        <button class="cta-button" onclick="document.getElementById('waitlist').scrollIntoView({behavior: 'smooth'})">
+            Get Early Access
+        </button>
+    </section>
+
+    <section class="video-section">
+        <div class="video-container">
+            <h2>See Ember In Action</h2>
+            <div class="video-wrapper">
+                <canvas id="videoCanvas"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="features-grid">
+            <div class="feature">
+                <div class="feature-icon">🔥</div>
+                <h3>Self-Heating</h3>
+                <p>Hot coffee in seconds. No microwave, no kettle, no wait. Just twist and enjoy.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🚀</div>
+                <h3>Ultimate Convenience</h3>
+                <p>Grab from the shelf and go. Perfect for commutes, travel, or whenever you need that hot coffee fix.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">♻️</div>
+                <h3>Zero Cleanup</h3>
+                <p>No dirty mugs, no washing. All the satisfaction of hot coffee without the hassle.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>Always Ready</h3>
+                <p>Skip the café lines. Skip the waiting. Your hot coffee is ready when you are.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="science">
+        <h2>The Science Behind The Heat</h2>
+        <p class="science-intro">
+            Ember uses revolutionary self-heating technology powered by a simple chemical reaction. 
+            When you activate the can, iron particles react with oxygen to generate instant heat.
+        </p>
+        
+        <div class="reaction-container">
+            <div class="particle-box">
+                <div class="particle-label">IRON PARTICLES</div>
+                <div class="particle-visual">
+                    <div class="iron-particles">
+                        <div class="iron-particle"></div>
+                        <div class="iron-particle"></div>
+                        <div class="iron-particle"></div>
+                        <div class="iron-particle"></div>
+                        <div class="iron-particle"></div>
+                        <div class="iron-particle"></div>
+                        <div class="iron-particle"></div>
+                        <div class="iron-particle"></div>
+                        <div class="iron-particle"></div>
+                        <div class="iron-particle"></div>
+                        <div class="iron-particle"></div>
+                        <div class="iron-particle"></div>
+                    </div>
+                </div>
+                <div class="particle-description">Micro iron powder</div>
+            </div>
+
+            <div class="operator">+</div>
+
+            <div class="particle-box">
+                <div class="particle-label">OXYGEN</div>
+                <div class="particle-visual">
+                    <div class="oxygen-molecules">
+                        <div class="oxygen-molecule">
+                            <div class="oxygen-atom"></div>
+                            <div class="oxygen-atom"></div>
+                        </div>
+                        <div class="oxygen-molecule">
+                            <div class="oxygen-atom"></div>
+                            <div class="oxygen-atom"></div>
+                        </div>
+                        <div class="oxygen-molecule">
+                            <div class="oxygen-atom"></div>
+                            <div class="oxygen-atom"></div>
+                        </div>
+                        <div class="oxygen-molecule">
+                            <div class="oxygen-atom"></div>
+                            <div class="oxygen-atom"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="particle-description">From the air</div>
+            </div>
+
+            <div class="operator">=</div>
+
+            <div class="particle-box">
+                <div class="particle-label">HEAT</div>
+                <div class="particle-visual heat-visual">
+                    <div class="flame">
+                        <div class="flame-layer flame-outer"></div>
+                        <div class="flame-layer flame-middle"></div>
+                        <div class="flame-layer flame-inner"></div>
+                    </div>
+                </div>
+                <div class="particle-description">Perfect temperature</div>
+            </div>
+        </div>
+
+        <div class="science-tagline">
+            Safe, Reliable & Perfectly Heated Every Time
+        </div>
+    </section>
+
+    <section class="waitlist" id="waitlist">
+        <h2>Join The Waitlist</h2>
+        <p>Be the first to experience hot coffee, reimagined.</p>
+        <div class="waitlist-form">
+            <div style="font-size: 2rem; font-weight: 700; margin-bottom: 1.5rem; letter-spacing: 0.05em;">$4 / can</div>
+            <div id="buyButton">
+                <button class="buy-button" onclick="showEmailForm()">BUY NOW!</button>
+            </div>
+            <div id="emailForm" style="display: none;">
+                <input type="email" id="emailInput" placeholder="Enter your email address" class="email-input">
+                <button class="submit-button" onclick="submitEmail()">Submit</button>
+            </div>
+            <div id="thankYou" style="display: none;">
+                <p class="thank-you-message">Thank you! We'll be in touch soon.</p>
+            </div>
+        </div>
+        <div class="analytics-display">
+            <div class="stat-box">
+                <div class="stat-number" id="buyClicks">0</div>
+                <div class="stat-label">Buy Now Clicks</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="emailSubmits">0</div>
+                <div class="stat-label">Email Submissions</div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Marketing video animation
+        const canvas = document.getElementById('videoCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 1280;
+        canvas.height = 720;
+        
+        const scenes = [
+            { 
+                text: 'MORNINGS',
+                subtext: 'Start your day right',
+                emoji: '☀️',
+                bg: '#1a1a1a'
+            },
+            { 
+                text: 'COMMUTES',
+                subtext: 'Hot coffee on the go',
+                emoji: '🚗',
+                bg: '#1a1a1a'
+            },
+            { 
+                text: 'WORK',
+                subtext: 'Power through your day',
+                emoji: '💼',
+                bg: '#1a1a1a'
+            },
+            { 
+                text: 'ADVENTURE',
+                subtext: 'Take it anywhere',
+                emoji: '⛰️',
+                bg: '#1a1a1a'
+            },
+            { 
+                text: 'EMBER',
+                subtext: 'Hot Coffee. Anytime. Anywhere.',
+                emoji: '🔥',
+                bg: 'gradient'
+            }
+        ];
+        
+        let currentScene = 0;
+        let frame = 0;
+        const framesPerScene = 90;
+        
+        function drawVideoFrame() {
+            const scene = scenes[currentScene];
+            const progress = (frame % framesPerScene) / framesPerScene;
+            
+            // Background
+            if (scene.bg === 'gradient') {
+                const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                gradient.addColorStop(0, '#ff6b35');
+                gradient.addColorStop(1, '#f7931e');
+                ctx.fillStyle = gradient;
+            } else {
+                ctx.fillStyle = scene.bg;
+            }
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Fade effect
+            let opacity = 1;
+            if (progress < 0.15) {
+                opacity = progress / 0.15;
+            } else if (progress > 0.85) {
+                opacity = (1 - progress) / 0.15;
+            }
+            
+            ctx.globalAlpha = opacity;
+            
+            // Draw emoji
+            ctx.font = 'bold 180px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(scene.emoji, canvas.width / 2, canvas.height / 2 - 100);
+            
+            // Draw main text
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 90px Arial';
+            ctx.fillText(scene.text, canvas.width / 2, canvas.height / 2 + 60);
+            
+            // Draw subtext
+            ctx.font = '45px Arial';
+            ctx.fillText(scene.subtext, canvas.width / 2, canvas.height / 2 + 130);
+            
+            ctx.globalAlpha = 1;
+            
+            frame++;
+            if (frame >= framesPerScene) {
+                frame = 0;
+                currentScene = (currentScene + 1) % scenes.length;
+            }
+        }
+        
+        // Start video animation
+        setInterval(drawVideoFrame, 1000 / 30);
+
+        // Analytics tracking
+        let buyClicks = 0;
+        let emailSubmits = 0;
+
+        function showEmailForm() {
+            buyClicks++;
+            document.getElementById('buyClicks').textContent = buyClicks;
+            document.getElementById('buyButton').style.display = 'none';
+            document.getElementById('emailForm').style.display = 'flex';
+            
+            // Track in Google Analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'buy_now_click', {
+                    'event_category': 'engagement',
+                    'event_label': 'Buy Now Button'
+                });
+            }
+        }
+
+        function submitEmail() {
+            const email = document.getElementById('emailInput').value;
+            if (email && email.includes('@')) {
+                emailSubmits++;
+                document.getElementById('emailSubmits').textContent = emailSubmits;
+                document.getElementById('emailForm').style.display = 'none';
+                document.getElementById('thankYou').style.display = 'block';
+                
+                // Track in Google Analytics
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'email_submit', {
+                        'event_category': 'conversion',
+                        'event_label': 'Email Submission',
+                        'value': email
+                    });
+                }
+                
+                // Submit to Google Form
+                const submissionUrl = `https://docs.google.com/forms/d/e/1FAIpQLSdn0CiwR3UPUnrW1DzZl5-HGN4P4FjztaC77Y8Syqv01O1-Ug/formResponse?entry.1671573404=${encodeURIComponent(email)}&submit=Submit`;
+                
+                // Create a hidden iframe to submit the form
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.style.width = '0';
+                iframe.style.height = '0';
+                iframe.style.border = 'none';
+                iframe.name = 'hidden_iframe_' + Date.now();
+                document.body.appendChild(iframe);
+                
+                // Load the submission URL in the iframe
+                iframe.src = submissionUrl;
+                
+                console.log('Email submitted:', email);
+                console.log('Submission URL:', submissionUrl);
+                
+                // Clean up iframe after a delay
+                setTimeout(() => {
+                    if (iframe.parentNode) {
+                        document.body.removeChild(iframe);
+                    }
+                }, 3000);
+            } else {
+                alert('Please enter a valid email address');
+            }
+        }
+    </script>
+</body>
+</html>
