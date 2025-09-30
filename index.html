@@ -7,6 +7,10 @@
   <title>Ember — Hot Coffee. Anywhere. Anytime.</title>
   <meta name="description" content="Ember delivers café-quality heat in a grab-and-go can — no barista required. Join the waitlist." />
 
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
+
+
   <!-- GA4 (use your real ID) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ38EB0J4S"></script>
   <script>
@@ -39,7 +43,13 @@
     .sub{font-size:clamp(16px,2.6vw,22px);color:#e7e7e7;max-width:780px;margin:0 auto 26px}
     .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
     .btn{appearance:none;border:0;cursor:pointer;font-weight:700;border-radius:14px;padding:14px 18px;transition:.2s transform,.2s box-shadow,.2s background}
-    .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#111;box-shadow:0 8px 28px rgba(255,90,31,.35)}
+    .btn-primary{
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    color:#111;
+    box-shadow:0 10px 30px rgba(255,90,31,.45);
+    font-size:18px;
+    padding:16px 22px;
+    }
     .btn-primary:hover{transform:translateY(-1px)}
     .btn-secondary{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.12)}
     .metrics{margin-top:12px;font-size:13px;color:var(--muted)}
@@ -80,15 +90,22 @@
 
   <!-- HERO -->
   <header class="hero">
-    <!-- Replace these two files in /assets (see list below) -->
-    <video autoplay muted playsinline loop poster="assets/hero-poster.jpg">
-      <source src="assets/ember-hero-loop.mp4" type="video/mp4">
+    <video id="heroVideo" autoplay muted playsinline loop poster="assets/hero-poster.jpg">
+    <source src="assets/ember-hero-loop.mp4" type="video/mp4">
     </video>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const vid = document.getElementById("heroVideo");
+        if (vid) vid.playbackRate = 0.75; // adjust: 0.5 slower, 1 normal, 1.25 faster
+    });
+    </script>
+
 
     <div class="hero-overlay container">
       <span class="badge">🔥 New • Portable Hot Coffee</span>
       <h1>Hot Coffee. Anywhere. Anytime.</h1>
-      <p class="sub">Ember delivers café-quality heat in a grab-and-go can — no barista required.</p>
+      <p class="sub">Ember is the world’s first portable canned coffee that heats itself — café-quality heat, no barista required.</p>
+
       <div class="cta">
         <button id="buyNowBtn" class="btn btn-primary">Reserve My Ember</button>
         <a href="#learn-more" class="btn btn-secondary">Learn more</a>
@@ -99,18 +116,64 @@
 
   <!-- BENEFITS -->
   <section id="learn-more">
+    <h2 style="text-align:center; margin-bottom:20px;">Why Ember?</h2>
+    <p class="muted" style="text-align:center; max-width:680px; margin:0 auto 40px;">
+    Ember isn’t just another canned coffee — it’s a breakthrough in convenience, technology, and taste.
+    </p>
+
     <div class="container grid-3">
-      <div class="card"><h3>Instant Heat</h3><p class="muted">Activate and enjoy steaming coffee in minutes — no machine, no outlet.</p></div>
-      <div class="card"><h3>Anywhere</h3><p class="muted">From commute to chairlift, take the heat with you. Pack-safe and travel-ready.</p></div>
-      <div class="card"><h3>Sustainable</h3><p class="muted">Designed with recyclability in mind and minimized components.</p></div>
+        <div class="card">
+        <h3>🔥 Self-Heating</h3>
+        <p class="muted">
+            Hot coffee in seconds. No microwave, no kettle, no wait. Just twist and enjoy. 
+            The built-in heat technology ensures every sip is at the perfect temperature.
+        </p>
+        </div>
+
+        <div class="card">
+        <h3>🚀 Ultimate Convenience</h3>
+        <p class="muted">
+            Grab from the shelf and go — perfect for commutes, travel, or whenever you need that hot coffee fix. 
+            Lightweight, portable, and TSA-friendly for flights.
+        </p>
+        </div>
+
+        <div class="card">
+        <h3>♻️ Zero Cleanup</h3>
+        <p class="muted">
+            No dirty mugs, no washing. All the satisfaction of hot coffee without the hassle. 
+            Simply recycle the can when you’re done.
+        </p>
+        </div>
+
+        <div class="card">
+        <h3>⚡ Always Ready</h3>
+        <p class="muted">
+            Skip the café lines. Skip the waiting. Your hot coffee is ready when you are. 
+            Shelf-stable for months, so you’ll never run out of a hot fix.
+        </p>
+        </div>
+
     </div>
   </section>
+
+  <!-- HOW IT WORKS VIDEO SECTION -->
+    <section>
+    <div class="container" style="text-align:center">
+        <h2>How Ember Works</h2>
+        <p class="muted">See Ember in action — from activation to sipping.</p>
+        <video controls playsinline poster="assets/how-it-works.png" style="max-width:800px; margin:20px auto; border-radius:18px; border:1px solid rgba(255,255,255,.08)">
+        <source src="assets/how-it-works.mp4" type="video/mp4">
+        </video>
+    </div>
+    </section>
+
 
   <!-- USE-CASES -->
   <section>
     <div class="container">
       <div class="usecase">
-        <img src="assets/usecase-commute.jpg" alt="Ember on the morning commute">
+        <img src="assets/usecase-commute.png" alt="Ember on the morning commute">
         <div>
           <h2>Morning Commute</h2>
           <p class="muted">Skip the line. Activate Ember as you leave — sip hot coffee as you arrive.</p>
@@ -138,9 +201,12 @@
   <!-- SOCIAL PROOF / CREDIBILITY (lightweight for test) -->
   <section>
     <div class="container grid-3">
-      <div class="card"><h3>“Finally, hot coffee to go.”</h3><p class="muted">— Early tester</p></div>
+      <div class="card"><h3>“Finally, canned hot coffee to go.”</h3><p class="muted">— Early tester</p></div>
       <div class="card"><h3>Be an early member</h3><p class="muted">Join the first 500 on the list to unlock launch perks.</p></div>
-      <div class="card"><h3>As seen in</h3><p class="muted">Add press logos later (optional).</p></div>
+      <div class="card">
+        <h3>As seen in</h3>
+        <img src="assets/press.png" alt="Press logos" style="max-width:160px; margin-top:8px;">
+      </div>
     </div>
   </section>
 
@@ -148,7 +214,7 @@
   <section>
     <div class="container">
       <h2>FAQ</h2>
-      <details open><summary>Is it safe?</summary><p class="muted">Yes. Ember uses sealed components and is designed for everyday carry.</p></details>
+      <details><summary>Is it safe?</summary><p class="muted">Yes. Ember uses sealed components and is designed for everyday carry.</p></details>
       <details><summary>How hot does it get?</summary><p class="muted">Target serving temp ~60–65 °C / 140–149 °F.</p></details>
       <details><summary>When can I get it?</summary><p class="muted">We’re validating demand now. Join the list to be first.</p></details>
     </div>
@@ -181,6 +247,17 @@
     </div>
   </div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <!-- CONFIRMATION MODAL -->
+    <div id="confirmModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="modal">
+        <h3 id="confirmTitle">You're in! 🎉</h3>
+        <p>Thanks for reserving your Ember. We’ll email you with updates before launch.</p>
+        <div class="actions">
+        <button id="closeConfirmBtn" class="btn btn-primary">Close</button>
+        </div>
+    </div>
+    </div>
+
 
   <script>
     // ---------- IDs you can change ----------
@@ -265,6 +342,23 @@
     });
 
     $('emailInput').addEventListener('keydown', (e)=>{ if(e.key==='Enter') $('submitEmailBtn').click(); });
+    
+    // Confirmation modal logic
+    const confirmModal = $('confirmModal');
+    const closeConfirm = $('closeConfirmBtn');
+    const openConfirm = ()=>{ confirmModal.style.display='flex'; };
+    const closeConfirmFn = ()=>{ confirmModal.style.display='none'; };
+    closeConfirm.addEventListener('click', closeConfirmFn);
+    confirmModal.addEventListener('click', (e)=>{ if(e.target===confirmModal) closeConfirmFn(); });
+
+    // In your email submit success handler, replace the line:
+    toast('Email saved!'); closeModal(); submitting=false; $('submitEmailBtn').disabled=false;
+
+    // with:
+    closeModal();
+    openConfirm();
+    submitting=false; $('submitEmailBtn').disabled=false;
+
   </script>
 </body>
 </html>
